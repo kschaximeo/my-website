@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Общение | ПоступAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Общие стили (такие же как в index.html) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9ff;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Шапка сайта (как в index.html) */
+        .main-header {
+            background-color: #1a3e8c;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin-left: 25px;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-menu a:hover {
+            opacity: 0.8;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .user-profile:hover {
+            opacity: 0.8;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            color: #1a3e8c;
+            font-weight: bold;
+        }
+
+        /* Стили для чата */
+        .chat-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .chat-sidebar {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            height: calc(100vh - 200px);
+        }
+
+        .chat-main {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 200px);
+        }
+
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e9ff;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-header-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e0e9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #1a3e8c;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .chat-header-info h3 {
+            color: #1a3e8c;
+            margin-bottom: 5px;
+        }
+
+        .chat-header-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            max-width: 70%;
+        }
+
+        .message-incoming {
+            align-self: flex-start;
+        }
+
+        .message-outgoing {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #1a3e8c;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .message-outgoing .message-avatar {
+            margin-right: 0;
+            margin-left: 15px;
+            background-color: #1a3e8c;
+            color: white;
+        }
+
+        .message-content {
+            background-color: #f0f5ff;
+            padding: 15px;
+            border-radius: 15px;
+            border-top-left-radius: 0;
+        }
+
+        .message-outgoing .message-content {
+            background-color: #1a3e8c;
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 0;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .message-outgoing .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid #e0e9ff;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 12px 20px;
+            border: 1px solid #e0e9ff;
+            border-radius: 30px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .chat-input button {
+            background-color: #1a3e8c;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-input button:hover {
+            background-color: #2a56d6;
+        }
+
+        /* Список чатов */
+        .chat-list {
+            list-style: none;
+        }
+
+        .chat-item {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-item:hover, .chat-item.active {
+            background-color: #f0f5ff;
+        }
+
+        .chat-item-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e0e9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #1a3e8c;
+            font-weight: bold;
+        }
+
+        .chat-item-info {
+            flex-grow: 1;
+        }
+
+        .chat-item-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .chat-item-preview {
+            font-size: 14px;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-item-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .chat-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-sidebar {
+                height: auto;
+                margin-bottom: 20px;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта (как в index.html) -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>ПоступAI</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Главная</a></li>
+                <li><a href="course.html"><i class="fas fa-book-open"></i> Курсы</a></li>
+                <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Расписание</a></li>
+                <li><a href="diary.html"><i class="fas fa-chart-line"></i> Успеваемость</a></li>
+                <li><a href="chat.html" class="active"><i class="fas fa-comments"></i> Общение</a></li>
+            </ul>
+            
+            <div class="user-profile" onclick="window.location.href='profile.html'">
+                <span>Иван Петров</span>
+                <div class="user-avatar">ИП</div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Основной контент чата -->
+    <div class="container">
+        <div class="chat-container">
+            <!-- Боковая панель с чатами -->
+            <aside class="chat-sidebar">
+                <h2 style="color: #1a3e8c; margin-bottom: 20px;">Чаты</h2>
+                <ul class="chat-list">
+                    <li class="chat-item active">
+                        <div class="chat-item-avatar">МК</div>
+                        <div class="chat-item-info">
+                            <div class="chat-item-name">Математический кружок</div>
+                            <div class="chat-item-preview">Анна: Завтра занятие переносится на 15:00</div>
+                        </div>
+                        <div class="chat-item-time">12:30</div>
+                    </li>
+                    <li class="chat-item">
+                        <div class="chat-item-avatar">ФК</div>
+                        <div class="chat-item-info">
+                            <div class="chat-item-name">Физический клуб</div>
+                            <div class="chat-item-preview">Петр: Кто-нибудь решил 5 задачу?</div>
+                        </div>
+                        <div class="chat-item-time">10:45</div>
+                    </li>
+                    <li class="chat-item">
+                        <div class="chat-item-avatar">ИС</div>
+                        <div class="chat-item-info">
+                            <div class="chat-item-name">Исторический семинар</div>
+                            <div class="chat-item-preview">Мария: Не забудьте принести проекты</div>
+                        </div>
+                        <div class="chat-item-time">Вчера</div>
+                    </li>
+                    <li class="chat-item">
+                        <div class="chat-item-avatar">ЛГ</div>
+                        <div class="chat-item-info">
+                            <div class="chat-item-name">Литературная группа</div>
+                            <div class="chat-item-preview">Сергей: Я закончил анализ стихотворения</div>
+                        </div>
+                        <div class="chat-item-time">Вчера</div>
+                    </li>
+                    <li class="chat-item">
+                        <div class="chat-item-avatar">ПП</div>
+                        <div class="chat-item-info">
+                            <div class="chat-item-name">Подготовка к ЕГЭ</div>
+                            <div class="chat-item-preview">Преподаватель: Напоминаю о тестировании</div>
+                        </div>
+                        <div class="chat-item-time">Пн</div>
+                    </li>
+                </ul>
+            </aside>
+            
+            <!-- Основное окно чата -->
+            <main class="chat-main">
+                <div class="chat-header">
+                    <div class="chat-header-avatar">МК</div>
+                    <div class="chat-header-info">
+                        <h3>Математический кружок</h3>
+                        <p>Анна, Петр, Мария, Сергей и еще 5 участников</p>
+                    </div>
+                </div>
+                
+                <div class="chat-messages">
+                    <div class="message message-incoming">
+                        <div class="message-avatar">АП</div>
+                        <div class="message-content">
+                            Привет всем! Напоминаю, что завтра у нас контрольная работа по теме "Производные".
+                            <div class="message-time">12:30</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message message-outgoing">
+                        <div class="message-avatar">ИП</div>
+                        <div class="message-content">
+                            Спасибо за напоминание! Я как раз повторял эту тему.
+                            <div class="message-time">12:32</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message message-incoming">
+                        <div class="message-avatar">МС</div>
+                        <div class="message-content">
+                            У меня вопрос по задаче №5 из домашнего задания. Никак не могу понять, как решать.
+                            <div class="message-time">12:35</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message message-outgoing">
+                        <div class="message-avatar">ИП</div>
+                        <div class="message-content">
+                            Попробуй применить правило Лопиталя, должно помочь.
+                            <div class="message-time">12:36</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message message-incoming">
+                        <div class="message-avatar">АП</div>
+                        <div class="message-content">
+                            Внимание! Занятие завтра переносится с 14:00 на 15:00 из-за совещания преподавателей.
+                            <div class="message-time">12:40</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input">
+                    <input type="text" placeholder="Напишите сообщение...">
+                    <button><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Футер (как в index.html) -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h3>Моя школа</h3>
+                    <p>Современная образовательная платформа для учащихся, преподавателей и родителей.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Разделы</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="course.html">Курсы</a></li>
+                        <li><a href="schedule.html">Расписание</a></li>
+                        <li><a href="diary.html">Успеваемость</a></li>
+                        <li><a href="chat.html">Общение</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Поддержка</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Помощь</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Контакты</a></li>
+                        <li><a href="#">Обратная связь</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> +7 (123) 456-78-90</li>
+                        <li><i class="fas fa-envelope"></i> info@moyshkola.ru</li>
+                        <li><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Образцова, 25</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2023 Образовательная платформа "Моя школа". Все права защищены.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Простая логика для чата
+        document.addEventListener('DOMContentLoaded', function() {
+            // Переключение между чатами
+            const chatItems = document.querySelectorAll('.chat-item');
+            chatItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    chatItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Здесь можно загрузить сообщения выбранного чата
+                    console.log('Загрузка чата: ' + this.querySelector('.chat-item-name').textContent);
+                });
+            });
+            
+            // Отправка сообщения
+            const chatInput = document.querySelector('.chat-input input');
+            const chatButton = document.querySelector('.chat-input button');
+            
+            chatButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            function sendMessage() {
+                const messageText = chatInput.value.trim();
+                if (messageText) {
+                    const messagesContainer = document.querySelector('.chat-messages');
+                    
+                    const newMessage = document.createElement('div');
+                    newMessage.className = 'message message-outgoing';
+                    newMessage.innerHTML = `
+                        <div class="message-avatar">ИП</div>
+                        <div class="message-content">
+                            ${messageText}
+                            <div class="message-time">Только что</div>
+                        </div>
+                    `;
+                    
+                    messagesContainer.appendChild(newMessage);
+                    chatInput.value = '';
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

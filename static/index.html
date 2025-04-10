@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПоступAI | Образовательная платформа</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9ff;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Шапка сайта */
+        .main-header {
+            background-color: #1a3e8c;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin-left: 25px;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-menu a:hover {
+            opacity: 0.8;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .user-profile:hover {
+            opacity: 0.8;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            color: #1a3e8c;
+            font-weight: bold;
+        }
+        
+        /* Герой-секция */
+        .hero {
+            background: linear-gradient(135deg, #1a3e8c 0%, #2a56d6 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: white;
+            color: #1a3e8c;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Основной контент */
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Боковая панель */
+        .sidebar {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-title {
+            font-size: 18px;
+            color: #1a3e8c;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e9ff;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar-title i {
+            margin-right: 10px;
+        }
+        
+        .quick-links {
+            list-style: none;
+        }
+        
+        .quick-link {
+            padding: 12px 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        .quick-link:hover {
+            background-color: #f0f5ff;
+        }
+        
+        .quick-link.active {
+            background-color: #1a3e8c;
+            color: white;
+        }
+        
+        .quick-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .calendar-widget {
+            text-align: center;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .calendar-day {
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .calendar-day.header {
+            font-weight: bold;
+            color: #1a3e8c;
+        }
+        
+        .calendar-day.today {
+            background-color: #1a3e8c;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .calendar-day.event {
+            background-color: #e0e9ff;
+            position: relative;
+        }
+        
+        .calendar-day.event::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: #1a3e8c;
+        }
+        
+        /* Основная часть */
+        .content-area {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .content-title {
+            font-size: 24px;
+            color: #1a3e8c;
+        }
+        
+        .view-all {
+            color: #1a3e8c;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .view-all i {
+            margin-left: 5px;
+        }
+        
+        /* Карточки курсов */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .course-card {
+            background-color: #f8faff;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e0e9ff;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-image {
+            height: 150px;
+            background-color: #1a3e8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .course-content {
+            padding: 20px;
+        }
+        
+        .course-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #1a3e8c;
+        }
+        
+        .course-teacher {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .progress-container {
+            margin-bottom: 15px;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: #e0e9ff;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #1a3e8c;
+            width: 65%;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .stat-item i {
+            margin-right: 5px;
+            color: #1a3e8c;
+        }
+        
+        /* Уведомления */
+        .notifications-list {
+            list-style: none;
+        }
+        
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #e0e9ff;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #1a3e8c;
+            flex-shrink: 0;
+        }
+        
+        .notification-content {
+            flex-grow: 1;
+        }
+        
+        .notification-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .notification-time {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* Блок с расписанием */
+        .schedule-tabs {
+            display: flex;
+            border-bottom: 1px solid #e0e9ff;
+            margin-bottom: 20px;
+        }
+        
+        .schedule-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .schedule-tab.active {
+            color: #1a3e8c;
+            font-weight: 500;
+        }
+        
+        .schedule-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #1a3e8c;
+        }
+        
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .schedule-table th {
+            text-align: left;
+            padding: 12px 15px;
+            background-color: #f0f5ff;
+            color: #1a3e8c;
+            font-weight: 500;
+        }
+        
+        .schedule-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f5ff;
+        }
+        
+        .schedule-lesson {
+            font-weight: 500;
+        }
+        
+        .schedule-teacher {
+            font-size: 13px;
+            color: #666;
+            margin-top: 3px;
+        }
+        
+        .schedule-room {
+            color: #1a3e8c;
+            font-weight: 500;
+        }
+        
+        /* Футер */
+        .main-footer {
+            background-color: #1a3e8c;
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .social-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .nav-menu {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .nav-menu li {
+                margin-left: 0;
+            }
+            
+            .user-profile {
+                margin-top: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animated {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>ПоступAI</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Главная</a></li>
+                <li><a href="course.html"><i class="fas fa-book-open"></i> Курсы</a></li>
+                <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Расписание</a></li>
+                <li><a href="diary.html"><i class="fas fa-chart-line"></i> Успеваемость</a></li>
+                <li><a href="chat.html"><i class="fas fa-comments"></i> Общение</a></li>
+            </ul>
+            
+            <div class="user-profile" onclick="window.location.href='profile.html'">
+                <span>Иван Петров</span>
+                <div class="user-avatar">ИП</div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Герой-секция -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="animated">Добро пожаловать в образовательную платформу</h1>
+            <p class="animated delay-1">Интерактивное обучение, персональный подход и удобные инструменты для достижения ваших образовательных целей</p>
+            <a href="course.html" class="cta-button animated delay-2">Начать обучение <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+    
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Боковая панель -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title"><i class="fas fa-bolt"></i> Быстрый доступ</h3>
+                    <ul class="quick-links">
+                        <li class="quick-link active">
+                            <i class="fas fa-home"></i> Главная
+                        </li>
+                        <li class="quick-link">
+                            <i class="fas fa-book"></i> <a href="course.html" style="color: inherit; text-decoration: none;">Мои курсы</a>
+                        </li>
+                        <li class="quick-link">
+                            <i class="fas fa-tasks"></i> Задания
+                        </li>
+                        <li class="quick-link">
+                            <i class="fas fa-chart-pie"></i> <a href="diary.html" style="color: inherit; text-decoration: none;">Статистика</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title"><i class="fas fa-calendar-day"></i> Календарь</h3>
+                    <div class="calendar-widget">
+                        <div class="calendar-header">
+                            <button><i class="fas fa-chevron-left"></i></button>
+                            <span>Декабрь 2023</span>
+                            <button><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        
+                        <div class="calendar-grid">
+                            <div class="calendar-day header">Пн</div>
+                            <div class="calendar-day header">Вт</div>
+                            <div class="calendar-day header">Ср</div>
+                            <div class="calendar-day header">Чт</div>
+                            <div class="calendar-day header">Пт</div>
+                            <div class="calendar-day header">Сб</div>
+                            <div class="calendar-day header">Вс</div>
+                            
+                            <div class="calendar-day">27</div>
+                            <div class="calendar-day">28</div>
+                            <div class="calendar-day">29</div>
+                            <div class="calendar-day">30</div>
+                            <div class="calendar-day">1</div>
+                            <div class="calendar-day">2</div>
+                            <div class="calendar-day">3</div>
+                            
+                            <div class="calendar-day">4</div>
+                            <div class="calendar-day">5</div>
+                            <div class="calendar-day event">6</div>
+                            <div class="calendar-day">7</div>
+                            <div class="calendar-day">8</div>
+                            <div class="calendar-day">9</div>
+                            <div class="calendar-day">10</div>
+                            
+                            <div class="calendar-day event">11</div>
+                            <div class="calendar-day today">12</div>
+                            <div class="calendar-day">13</div>
+                            <div class="calendar-day event">14</div>
+                            <div class="calendar-day">15</div>
+                            <div class="calendar-day">16</div>
+                            <div class="calendar-day">17</div>
+                            
+                            <div class="calendar-day">18</div>
+                            <div class="calendar-day">19</div>
+                            <div class="calendar-day">20</div>
+                            <div class="calendar-day">21</div>
+                            <div class="calendar-day">22</div>
+                            <div class="calendar-day">23</div>
+                            <div class="calendar-day">24</div>
+                            
+                            <div class="calendar-day">25</div>
+                            <div class="calendar-day">26</div>
+                            <div class="calendar-day">27</div>
+                            <div class="calendar-day">28</div>
+                            <div class="calendar-day">29</div>
+                            <div class="calendar-day">30</div>
+                            <div class="calendar-day">31</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title"><i class="fas fa-bell"></i> Ближайшие события</h3>
+                    <ul class="quick-links">
+                        <li class="quick-link">
+                            <i class="fas fa-chalkboard-teacher"></i> Контрольная по математике
+                            <div class="week-date">14 дек, 10:00</div>
+                        </li>
+                        <li class="quick-link">
+                            <i class="fas fa-flask"></i> Лабораторная по физике
+                            <div class="week-date">16 дек, 13:30</div>
+                        </li>
+                        <li class="quick-link">
+                            <i class="fas fa-book"></i> Сдача проекта по истории
+                            <div class="week-date">20 дек, 09:00</div>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            
+            <!-- Основная часть -->
+            <main class="content-area">
+                <div class="content-header">
+                    <h2 class="content-title">Мои курсы</h2>
+                    <a href="course.html" class="view-all">Все курсы <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="courses-grid">
+                    <div class="course-card animated">
+                        <div class="course-image">
+                            <i class="fas fa-square-root-alt"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Алгебра и начала анализа</h3>
+                            <p class="course-teacher">Преподаватель: Сергеева М.А.</p>
+                            
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Прогресс</span>
+                                    <span>65%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-stats">
+                                <div class="stat-item">
+                                    <i class="fas fa-book-open"></i> 12 уроков
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-tasks"></i> 5 заданий
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card animated delay-1">
+                        <div class="course-image" style="background-color: #2e7d32;">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Физика</h3>
+                            <p class="course-teacher">Преподаватель: Иванов П.С.</p>
+                            
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Прогресс</span>
+                                    <span>42%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 42%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-stats">
+                                <div class="stat-item">
+                                    <i class="fas fa-book-open"></i> 8 уроков
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-tasks"></i> 3 задания
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card animated delay-2">
+                        <div class="course-image" style="background-color: #c62828;">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Русский язык</h3>
+                            <p class="course-teacher">Преподаватель: Петрова Е.В.</p>
+                            
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Прогресс</span>
+                                    <span>78%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 78%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-stats">
+                                <div class="stat-item">
+                                    <i class="fas fa-book-open"></i> 15 уроков
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-tasks"></i> 7 заданий
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-header">
+                    <h2 class="content-title">Расписание</h2>
+                    <a href="schedule.html" class="view-all">Полное расписание <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="schedule-tabs">
+                    <div class="schedule-tab active">Сегодня</div>
+                    <div class="schedule-tab">Завтра</div>
+                    <div class="schedule-tab">Неделя</div>
+                </div>
+                
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Время</th>
+                            <th>Предмет</th>
+                            <th>Кабинет</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>09:00 - 09:45</td>
+                            <td>
+                                <div class="schedule-lesson">Алгебра</div>
+                                <div class="schedule-teacher">Сергеева М.А.</div>
+                            </td>
+                            <td class="schedule-room">305</td>
+                        </tr>
+                        <tr>
+                            <td>10:00 - 10:45</td>
+                            <td>
+                                <div class="schedule-lesson">Физика</div>
+                                <div class="schedule-teacher">Иванов П.С.</div>
+                            </td>
+                            <td class="schedule-room">214</td>
+                        </tr>
+                        <tr>
+                            <td>11:00 - 11:45</td>
+                            <td>
+                                <div class="schedule-lesson">Русский язык</div>
+                                <div class="schedule-teacher">Петрова Е.В.</div>
+                            </td>
+                            <td class="schedule-room">112</td>
+                        </tr>
+                        <tr>
+                            <td>12:00 - 12:45</td>
+                            <td>
+                                <div class="schedule-lesson">История</div>
+                                <div class="schedule-teacher">Смирнов А.К.</div>
+                            </td>
+                            <td class="schedule-room">208</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="content-header" style="margin-top: 40px;">
+                    <h2 class="content-title">Последние уведомления</h2>
+                    <a href="#" class="view-all">Все уведомления <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <ul class="notifications-list">
+                    <li class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">Добавлено новое задание по алгебре</div>
+                            <div class="notification-time">Сегодня, 10:15</div>
+                        </div>
+                    </li>
+                    <li class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">Ваша работа по физике проверена</div>
+                            <div class="notification-time">Вчера, 16:30</div>
+                        </div>
+                    </li>
+                    <li class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">Завтра контрольная по истории</div>
+                            <div class="notification-time">Вчера, 14:00</div>
+                        </div>
+                    </li>
+                </ul>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Футер -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h3>Моя школа</h3>
+                    <p>Современная образовательная платформа для учащихся, преподавателей и родителей.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Разделы</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="course.html">Курсы</a></li>
+                        <li><a href="schedule.html">Расписание</a></li>
+                        <li><a href="diary.html">Успеваемость</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Поддержка</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Помощь</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Контакты</a></li>
+                        <li><a href="#">Обратная связь</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> +7 (123) 456-78-90</li>
+                        <li><i class="fas fa-envelope"></i> info@moyshkola.ru</li>
+                        <li><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Образцова, 25</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2023 Образовательная платформа "Моя школа". Все права защищены.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Переключение быстрых ссылок
+            const quickLinks = document.querySelectorAll('.quick-link');
+            quickLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    quickLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Переключение вкладок расписания
+            const scheduleTabs = document.querySelectorAll('.schedule-tab');
+            scheduleTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    scheduleTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Здесь можно загрузить данные для выбранной вкладки
+                    console.log('Загрузка расписания для: ' + this.textContent);
+                });
+            });
+            
+            // Имитация загрузки данных
+            function loadData() {
+                // В реальном приложении здесь будут запросы к серверу
+                console.log('Загрузка данных...');
+            }
+            
+            loadData();
+            
+            // Анимация при прокрутке
+            const animatedElements = document.querySelectorAll('.animated');
+            
+            function checkAnimation() {
+                animatedElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', checkAnimation);
+            checkAnimation(); // Проверить при загрузке
+            
+            // Пример динамического обновления (для демонстрации)
+            setTimeout(() => {
+                const notificationsList = document.querySelector('.notifications-list');
+                const newNotification = document.createElement('li');
+                newNotification.className = 'notification-item';
+                newNotification.innerHTML = `
+                    <div class="notification-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">Изменение в расписании на завтра</div>
+                        <div class="notification-time">Только что</div>
+                    </div>
+                `;
+                notificationsList.insertBefore(newNotification, notificationsList.firstChild);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПоступAI | Образовательная платформа</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Все предыдущие стили остаются без изменений */
+        /* ... ваш существующий CSS ... */
+        
+        /* Добавляем новые стили для чат-бота */
+        .chat-bot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e9ff;
+        }
+
+        .chat-bot-container.active {
+            display: flex;
+        }
+
+        .chat-bot-header {
+            background-color: #1a3e8c;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .chat-bot-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-bot-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+            background-color: #e0e9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-bot-avatar img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .chat-bot-actions button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-bot-actions button:hover {
+            opacity: 1;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-bot-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 300px;
+            background-color: #f8faff;
+        }
+
+        .bot-message, .user-message {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background-color: #e0e9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-message .message-avatar {
+            background-color: #1a3e8c;
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        .message-avatar img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+        }
+
+        .message-content {
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            border-top-left-radius: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            max-width: 80%;
+        }
+
+        .user-message .message-content {
+            background-color: #1a3e8c;
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 0;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .user-message .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .chat-bot-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #e0e9ff;
+            background-color: white;
+        }
+
+        .chat-bot-input input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #e0e9ff;
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chat-bot-input button {
+            background-color: #1a3e8c;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-bot-input button:hover {
+            background-color: #2a56d6;
+        }
+
+        .chat-bot-minimized {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1a3e8c;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .chat-bot-minimized:hover {
+            background-color: #2a56d6;
+        }
+
+        .minimized-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+            background-color: #e0e9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .minimized-avatar img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-question {
+            background-color: #e0e9ff;
+            color: #1a3e8c;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quick-question:hover {
+            background-color: #1a3e8c;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .chat-bot-container {
+                width: 300px;
+                right: 10px;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Весь ваш существующий HTML остается без изменений -->
+    <!-- ... ваш существующий HTML код ... -->
+
+    <!-- Добавляем в конец body перед скриптами -->
+    <!-- Чат-бот Кот Учёный -->
+    <div class="chat-bot-container" id="chatBot">
+        <div class="chat-bot-header" id="chatBotHeader">
+            <div class="chat-bot-title">
+                <div class="chat-bot-avatar">
+                    <img src="https://i.imgur.com/JQ9pGNR.png" alt="Кот Учёный">
+                </div>
+                <span>Кот Учёный</span>
+            </div>
+            <div class="chat-bot-actions">
+                <button class="minimize-btn"><i class="fas fa-minus"></i></button>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="chat-bot-messages" id="chatMessages">
+            <div class="bot-message">
+                <div class="message-avatar">
+                    <img src="https://i.imgur.com/JQ9pGNR.png" alt="Кот Учёный">
+                </div>
+                <div class="message-content">
+                    Приветствую, студент! Я - Кот Учёный, ваш помощник на этой платформе. 
+                    Могу рассказать о курсах, помочь с расписанием или объяснить сложную тему. 
+                    Чем могу помочь?
+                    <div class="quick-questions">
+                        <div class="quick-question" data-question="Как работает платформа?">Как работает платформа?</div>
+                        <div class="quick-question" data-question="Где мои курсы?">Где мои курсы?</div>
+                        <div class="quick-question" data-question="Объясни тему 'Производные'">Объясни тему "Производные"</div>
+                    </div>
+                    <div class="message-time">Только что</div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-bot-input">
+            <input type="text" id="userInput" placeholder="Задайте ваш вопрос..." autocomplete="off">
+            <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <div class="chat-bot-minimized" id="minimizedChat">
+        <div class="minimized-avatar">
+            <img src="https://i.imgur.com/JQ9pGNR.png" alt="Кот Учёный">
+        </div>
+        <span>Кот Учёный</span>
+    </div>
+
+    <script>
+        // Весь ваш существующий JavaScript остается без изменений
+        // ... ваш существующий JavaScript код ...
+
+        // Добавляем новый код для чат-бота
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatBot = document.getElementById('chatBot');
+            const minimizedChat = document.getElementById('minimizedChat');
+            const chatMessages = document.getElementById('chatMessages');
+            const userInput = document.getElementById('userInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const minimizeBtn = document.querySelector('.minimize-btn');
+            const closeBtn = document.querySelector('.close-btn');
+            const chatBotHeader = document.getElementById('chatBotHeader');
+
+            // Показываем минимизированный чат при загрузке
+            minimizedChat.style.display = 'flex';
+            
+            // Ответы бота
+            const botResponses = {
+                "привет": "Привет-привет! Чем могу помочь?",
+                "как дела": "Отлично, как у настоящего учёного кота! А у вас?",
+                "как работает платформа": "Наша платформа помогает вам учиться эффективно! Здесь вы можете:<br>1. Просматривать свои курсы<br>2. Проверять расписание<br>3. Отслеживать успеваемость<br>4. Общаться с преподавателями",
+                "где мои курсы": "Ваши курсы находятся в разделе 'Мои курсы' в главном меню. Там вы увидите все активные курсы и ваш прогресс по ним.",
+                "объясни тему 'производные'": "Производная - это скорость изменения функции. Основные правила:<br>1. Производная константы: 0<br>2. Производная x^n: n*x^(n-1)<br>3. Производная суммы: сумма производных<br>Хотите конкретные примеры?",
+                "спасибо": "Всегда рад помочь! Если будут ещё вопросы - обращайтесь!",
+                "default": "Извините, я не совсем понял вопрос. Можете переформулировать? Я могу помочь с:<br>- Пониманием платформы<br>- Объяснением тем из курсов<br>- Ответами на технические вопросы"
+            };
+
+            // Открытие/закрытие чата
+            minimizedChat.addEventListener('click', function() {
+                minimizedChat.style.display = 'none';
+                chatBot.classList.add('active');
+            });
+
+            minimizeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                chatBot.classList.remove('active');
+                minimizedChat.style.display = 'flex';
+            });
+
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                chatBot.classList.remove('active');
+                minimizedChat.style.display = 'none';
+                // Чат можно снова открыть через несколько секунд
+                setTimeout(() => {
+                    minimizedChat.style.display = 'flex';
+                }, 30000);
+            });
+
+            // Отправка сообщения
+            function sendMessage() {
+                const messageText = userInput.value.trim();
+                if (messageText) {
+                    addUserMessage(messageText);
+                    userInput.value = '';
+                    
+                    // Имитация набора текста ботом
+                    setTimeout(() => {
+                        const typingIndicator = document.createElement('div');
+                        typingIndicator.className = 'bot-message';
+                        typingIndicator.innerHTML = `
+                            <div class="message-avatar">
+                                <img src="https://i.imgur.com/JQ9pGNR.png" alt="Кот Учёный">
+                            </div>
+                            <div class="message-content">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </div>
+                        `;
+                        chatMessages.appendChild(typingIndicator);
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                        
+                        setTimeout(() => {
+                            chatMessages.removeChild(typingIndicator);
+                            addBotMessage(getBotResponse(messageText));
+                        }, 1000);
+                    }, 500);
+                }
+            }
+
+            // Добавление сообщения пользователя
+            function addUserMessage(text) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'user-message';
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        ${text}
+                        <div class="message-time">Только что</div>
+                    </div>
+                    <div class="message-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                `;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Добавление сообщения бота
+            function addBotMessage(text) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'bot-message';
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">
+                        <img src="https://i.imgur.com/JQ9pGNR.png" alt="Кот Учёный">
+                    </div>
+                    <div class="message-content">
+                        ${text}
+                        <div class="message-time">Только что</div>
+                    </div>
+                `;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Получение ответа бота
+            function getBotResponse(question) {
+                question = question.toLowerCase();
+                for (const key in botResponses) {
+                    if (question.includes(key)) {
+                        return botResponses[key];
+                    }
+                }
+                return botResponses["default"];
+            }
+
+            // Обработчики событий
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Быстрые вопросы
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('quick-question')) {
+                    const question = e.target.getAttribute('data-question');
+                    addUserMessage(question);
+                    
+                    setTimeout(() => {
+                        addBotMessage(getBotResponse(question));
+                    }, 800);
+                }
+            });
+
+            // Открытие чата при нажатии на заголовок
+            chatBotHeader.addEventListener('click', function() {
+                minimizedChat.style.display = 'none';
+                chatBot.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
