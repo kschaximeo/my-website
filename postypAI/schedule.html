@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моё расписание | ПоступAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9ff;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Шапка раздела */
+        .schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e9ff;
+        }
+        
+        .schedule-title {
+            font-size: 28px;
+            color: #1a3e8c;
+            display: flex;
+            align-items: center;
+        }
+        
+        .schedule-title i {
+            margin-right: 15px;
+            color: #1a3e8c;
+        }
+        
+        .schedule-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            background-color: white;
+            border: 1px solid #d0d9f0;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background-color: #1a3e8c;
+            color: white;
+            border-color: #1a3e8c;
+        }
+        
+        .current-week {
+            background-color: #1a3e8c;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 0 10px;
+        }
+        
+        /* Переключение между видами расписания */
+        .view-switcher {
+            display: flex;
+            background-color: white;
+            border-radius: 20px;
+            padding: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #d0d9f0;
+        }
+        
+        .view-btn {
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            background: none;
+        }
+        
+        .view-btn.active {
+            background-color: #1a3e8c;
+            color: white;
+        }
+        
+        /* Основное расписание */
+        .schedule-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        /* Шапка таблицы */
+        .schedule-header-row {
+            display: grid;
+            grid-template-columns: 100px repeat(5, 1fr);
+            background-color: #f0f5ff;
+            font-weight: 500;
+            color: #1a3e8c;
+        }
+        
+        .schedule-header-cell {
+            padding: 15px;
+            text-align: center;
+            border-right: 1px solid #e0e9ff;
+        }
+        
+        .schedule-header-cell:last-child {
+            border-right: none;
+        }
+        
+        /* Строки с временем и занятиями */
+        .schedule-row {
+            display: grid;
+            grid-template-columns: 100px repeat(5, 1fr);
+            border-bottom: 1px solid #f0f5ff;
+        }
+        
+        .schedule-row:last-child {
+            border-bottom: none;
+        }
+        
+        .time-cell {
+            padding: 15px;
+            text-align: center;
+            background-color: #f8faff;
+            color: #666;
+            font-size: 14px;
+            border-right: 1px solid #e0e9ff;
+        }
+        
+        .lesson-cell {
+            padding: 15px;
+            border-right: 1px solid #f0f5ff;
+            min-height: 80px;
+        }
+        
+        .lesson-cell:last-child {
+            border-right: none;
+        }
+        
+        /* Карточка занятия */
+        .lesson-card {
+            background-color: #f8faff;
+            border-radius: 8px;
+            padding: 12px;
+            height: 100%;
+            border-left: 3px solid #4d7eff;
+            transition: all 0.3s;
+        }
+        
+        .lesson-card:hover {
+            background-color: #e6eeff;
+            transform: translateY(-2px);
+        }
+        
+        .lesson-card.lecture {
+            border-left-color: #1a8c5e;
+        }
+        
+        .lesson-card.practice {
+            border-left-color: #8c1a5e;
+        }
+        
+        .lesson-card.lab {
+            border-left-color: #8c5e1a;
+        }
+        
+        .lesson-time {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .lesson-subject {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #1a3e8c;
+        }
+        
+        .lesson-teacher {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .lesson-room {
+            display: inline-block;
+            background-color: #e0e9ff;
+            color: #1a3e8c;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* Мобильная версия */
+        .mobile-schedule {
+            display: none;
+        }
+        
+        .day-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .day-header {
+            background-color: #1a3e8c;
+            color: white;
+            padding: 12px 15px;
+            font-weight: 500;
+        }
+        
+        .day-lessons {
+            padding: 10px;
+        }
+        
+        /* Статистика посещений */
+        .attendance-stats {
+            margin-top: 40px;
+            background-color: #f8faff;
+            border-radius: 10px;
+            padding: 25px;
+        }
+        
+        .stats-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #1a3e8c;
+            display: flex;
+            align-items: center;
+        }
+        
+        .stats-title i {
+            margin-right: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a3e8c;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .desktop-schedule {
+                display: none;
+            }
+            
+            .mobile-schedule {
+                display: block;
+            }
+            
+            .schedule-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .schedule-nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .current-week {
+                margin: 0;
+                flex-grow: 1;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="schedule-header">
+            <h1 class="schedule-title">
+                <i class="fas fa-calendar-alt"></i> Моё расписание
+            </h1>
+            <div class="schedule-nav">
+                <button class="nav-btn" id="prev-week">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="current-week">
+                    <i class="fas fa-calendar-week"></i> 4 дек - 10 дек 2023
+                </div>
+                <button class="nav-btn" id="next-week">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Переключение между видами расписания -->
+        <div class="view-switcher">
+            <button class="view-btn active" data-view="week">Неделя</button>
+            <button class="view-btn" data-view="day">День</button>
+            <button class="view-btn" data-view="list">Список</button>
+        </div>
+        
+        <!-- Десктопная версия расписания -->
+        <div class="desktop-schedule">
+            <div class="schedule-container">
+                <!-- Шапка с днями недели -->
+                <div class="schedule-header-row">
+                    <div class="schedule-header-cell">Время</div>
+                    <div class="schedule-header-cell">Понедельник</div>
+                    <div class="schedule-header-cell">Вторник</div>
+                    <div class="schedule-header-cell">Среда</div>
+                    <div class="schedule-header-cell">Четверг</div>
+                    <div class="schedule-header-cell">Пятница</div>
+                </div>
+                
+                <!-- Строки с занятиями -->
+                <div class="schedule-row">
+                    <div class="time-cell">08:30 - 10:00</div>
+                    <div class="lesson-cell">
+                        <div class="lesson-card lecture">
+                            <div class="lesson-time">08:30 - 10:00</div>
+                            <div class="lesson-subject">Алгебра</div>
+                            <div class="lesson-teacher">Иванов П.С.</div>
+                            <span class="lesson-room">Каб. 304</span>
+                        </div>
+                    </div>
+                    <div class="lesson-cell"></div>
+                    <div class="lesson-cell">
+                        <div class="lesson-card practice">
+                            <div class="lesson-time">08:30 - 10:00</div>
+                            <div class="lesson-subject">Физика</div>
+                            <div class="lesson-teacher">Смирнова Е.В.</div>
+                            <span class="lesson-room">Каб. 215</span>
+                        </div>
+                    </div>
+                    <div class="lesson-cell"></div>
+                    <div class="lesson-cell">
+                        <div class="lesson-card">
+                            <div class="lesson-time">08:30 - 10:00</div>
+                            <div class="lesson-subject">Информатика</div>
+                            <div class="lesson-teacher">Петров Д.И.</div>
+                            <span class="lesson-room">Каб. 112</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="schedule-row">
+                    <div class="time-cell">10:15 - 11:45</div>
+                    <div class="lesson-cell">
+                        <div class="lesson-card practice">
+                            <div class="lesson-time">10:15 - 11:45</div>
+                            <div class="lesson-subject">Геометрия</div>
+                            <div class="lesson-teacher">Иванов П.С.</div>
+                            <span class="lesson-room">Каб. 304</span>
+                        </div>
+                    </div>
+                    <div class="lesson-cell">
+                        <div class="lesson-card lab">
+                            <div class="lesson-time">10:15 - 11:45</div>
+                            <div class="lesson-subject">Химия</div>
+                            <div class="lesson-teacher">Волков А.А.</div>
+                            <span class="lesson-room">Лаб. 105</span>
+                        </div>
+                    </div>
+                    <div class="lesson-cell"></div>
+                    <div class="lesson-cell">
+                        <div class="lesson-card lecture">
+                            <div class="lesson-time">10:15 - 11:45</div>
+                            <div class="lesson-subject">История</div>
+                            <div class="lesson-teacher">Кузнецова О.П.</div>
+                            <span class="lesson-room">Каб. 201</span>
+                        </div>
+                    </div>
+                    <div class="lesson-cell"></div>
+                </div>
+                
+                <!-- Обеденный перерыв -->
+                <div class="schedule-row">
+                    <div class="time-cell">12:00 - 13:00</div>
+                    <div class="lesson-cell" style="grid-column: span 5; display: flex; align-items: center; justify-content: center; color: #666; font-size: 14px;">
+                        <i class="fas fa-utensils" style="margin-right: 8px;"></i> Обеденный перерыв
+                    </div>
+                </div>
+                
+                <div class="schedule-row">
+                    <div class="time-cell">13:00 - 14:30</div>
+                    <div class="lesson-cell"></div>
+                    <div class="lesson-cell">
+                        <div class="lesson-card">
+                            <div class="lesson-time">13:00 - 14:30</div>
+                            <div class="lesson-subject">Русский язык</div>
+                            <div class="lesson-teacher">Соколова М.И.</div>
+                            <span class="lesson-room">Каб. 203</span>
+                        </div>
+                    </div>
+                    <div class="lesson-cell">
+                        <div class="lesson-card lab">
+                            <div class="lesson-time">13:00 - 14:30</div>
+                            <div class="lesson-subject">Физика</div>
+                            <div class="lesson-teacher">Смирнова Е.В.</div>
+                            <span class="lesson-room">Лаб. 108</span>
+                        </div>
+                    </div>
+                    <div class="lesson-cell"></div>
+                    <div class="lesson-cell">
+                        <div class="lesson-card practice">
+                            <div class="lesson-time">13:00 - 14:30</div>
+                            <div class="lesson-subject">Английский язык</div>
+                            <div class="lesson-teacher">Johnson M.</div>
+                            <span class="lesson-room">Каб. 305</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Мобильная версия расписания -->
+        <div class="mobile-schedule">
+            <!-- Понедельник -->
+            <div class="day-card">
+                <div class="day-header">Понедельник, 4 декабря</div>
+                <div class="day-lessons">
+                    <div class="lesson-card lecture">
+                        <div class="lesson-time">08:30 - 10:00</div>
+                        <div class="lesson-subject">Алгебра</div>
+                        <div class="lesson-teacher">Иванов П.С.</div>
+                        <span class="lesson-room">Каб. 304</span>
+                    </div>
+                    <div class="lesson-card practice">
+                        <div class="lesson-time">10:15 - 11:45</div>
+                        <div class="lesson-subject">Геометрия</div>
+                        <div class="lesson-teacher">Иванов П.С.</div>
+                        <span class="lesson-room">Каб. 304</span>
+                    </div>
+                    <div class="break-time">
+                        <i class="fas fa-utensils"></i> Обеденный перерыв 12:00 - 13:00
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Вторник -->
+            <div class="day-card">
+                <div class="day-header">Вторник, 5 декабря</div>
+                <div class="day-lessons">
+                    <div class="lesson-card lab">
+                        <div class="lesson-time">10:15 - 11:45</div>
+                        <div class="lesson-subject">Химия</div>
+                        <div class="lesson-teacher">Волков А.А.</div>
+                        <span class="lesson-room">Лаб. 105</span>
+                    </div>
+                    <div class="lesson-card">
+                        <div class="lesson-time">13:00 - 14:30</div>
+                        <div class="lesson-subject">Русский язык</div>
+                        <div class="lesson-teacher">Соколова М.И.</div>
+                        <span class="lesson-room">Каб. 203</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Среда -->
+            <div class="day-card">
+                <div class="day-header">Среда, 6 декабря</div>
+                <div class="day-lessons">
+                    <div class="lesson-card practice">
+                        <div class="lesson-time">08:30 - 10:00</div>
+                        <div class="lesson-subject">Физика</div>
+                        <div class="lesson-teacher">Смирнова Е.В.</div>
+                        <span class="lesson-room">Каб. 215</span>
+                    </div>
+                    <div class="lesson-card lab">
+                        <div class="lesson-time">13:00 - 14:30</div>
+                        <div class="lesson-subject">Физика</div>
+                        <div class="lesson-teacher">Смирнова Е.В.</div>
+                        <span class="lesson-room">Лаб. 108</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Четверг -->
+            <div class="day-card">
+                <div class="day-header">Четверг, 7 декабря</div>
+                <div class="day-lessons">
+                    <div class="lesson-card lecture">
+                        <div class="lesson-time">10:15 - 11:45</div>
+                        <div class="lesson-subject">История</div>
+                        <div class="lesson-teacher">Кузнецова О.П.</div>
+                        <span class="lesson-room">Каб. 201</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Пятница -->
+            <div class="day-card">
+                <div class="day-header">Пятница, 8 декабря</div>
+                <div class="day-lessons">
+                    <div class="lesson-card">
+                        <div class="lesson-time">08:30 - 10:00</div>
+                        <div class="lesson-subject">Информатика</div>
+                        <div class="lesson-teacher">Петров Д.И.</div>
+                        <span class="lesson-room">Каб. 112</span>
+                    </div>
+                    <div class="lesson-card practice">
+                        <div class="lesson-time">13:00 - 14:30</div>
+                        <div class="lesson-subject">Английский язык</div>
+                        <div class="lesson-teacher">Johnson M.</div>
+                        <span class="lesson-room">Каб. 305</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Статистика посещений -->
+        <div class="attendance-stats">
+            <h3 class="stats-title">
+                <i class="fas fa-chart-line"></i> Статистика посещений
+            </h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">Посещаемость</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Занятий в неделю</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Пропущено</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Всего часов</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Переключение недель
+            const prevWeekBtn = document.getElementById('prev-week');
+            const nextWeekBtn = document.getElementById('next-week');
+            const currentWeekEl = document.querySelector('.current-week');
+            
+            let currentWeek = 0;
+            const weeks = [
+                "4 дек - 10 дек 2023",
+                "11 дек - 17 дек 2023",
+                "18 дек - 24 дек 2023"
+            ];
+            
+            function updateWeekDisplay() {
+                currentWeekEl.textContent = weeks[currentWeek];
+            }
+            
+            prevWeekBtn.addEventListener('click', function() {
+                if (currentWeek > 0) {
+                    currentWeek--;
+                    updateWeekDisplay();
+                    console.log('Загрузка расписания на неделю: ' + weeks[currentWeek]);
+                }
+            });
+            
+            nextWeekBtn.addEventListener('click', function() {
+                if (currentWeek < weeks.length - 1) {
+                    currentWeek++;
+                    updateWeekDisplay();
+                    console.log('Загрузка расписания на неделю: ' + weeks[currentWeek]);
+                }
+            });
+            
+            // Переключение между видами расписания
+            const viewBtns = document.querySelectorAll('.view-btn');
+            viewBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    viewBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const view = this.getAttribute('data-view');
+                    console.log('Переключение на вид: ' + view);
+                    
+                    // Здесь будет логика переключения между видами расписания
+                    // В реальном приложении это может быть загрузка разных представлений
+                });
+            });
+            
+            // Имитация загрузки данных
+            function loadScheduleData() {
+                // В реальном приложении здесь будет запрос к серверу
+                console.log('Загрузка данных расписания...');
+            }
+            
+            loadScheduleData();
+            
+            // Клик по карточке занятия
+            const lessonCards = document.querySelectorAll('.lesson-card');
+            lessonCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const subject = this.querySelector('.lesson-subject').textContent;
+                    console.log('Выбрано занятие: ' + subject);
+                    // В реальном приложении здесь можно открыть детали занятия
+                });
+            });
+        });
+    </script>
+</body>
+</html>

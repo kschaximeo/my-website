@@ -1,0 +1,641 @@
+</style>
+</head>
+
+<!-- Модальное окно входа/регистрации -->
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div id="auth-tabs">
+            <button class="auth-tab active" onclick="openAuthTab('login')">Вход</button>
+            <button class="auth-tab" onclick="openAuthTab('register')">Регистрация</button>
+        </div>
+        
+        <!-- Форма входа -->
+        <div id="login-form" class="auth-form">
+            <h3>Вход в аккаунт</h3>
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Пароль" required>
+            <button onclick="loginUser()">Войти</button>
+        </div>
+        
+        <!-- Форма регистрации -->
+        <div id="register-form" class="auth-form" style="display:none;">
+            <h3>Регистрация</h3>
+            <input type="text" id="reg-name" placeholder="Имя" required>
+            <input type="email" id="reg-email" placeholder="Email" required>
+            <input type="password" id="reg-password" placeholder="Пароль" required>
+            <input type="password" id="reg-confirm-password" placeholder="Подтвердите пароль" required>
+            <div id="password-requirements">
+                <p>Пароль должен содержать:</p>
+                <ul>
+                    <li id="req-length">Не менее 8 символов</li>
+                    <li id="req-upper">Хотя бы одну заглавную букву</li>
+                    <li id="req-number">Хотя бы одну цифру</li>
+                    <li id="req-special">Хотя бы один спецсимвол</li>
+                </ul>
+            </div>
+            <button onclick="registerUser()">Зарегистрироваться</button>
+        </div>
+    </div>
+</div>
+
+<!-- Кнопка входа в шапке сайта -->
+<div class="auth-buttons">
+    <button id="auth-button">Войти</button>
+    <div id="user-profile" style="display:none;">
+        <span id="username-display"></span>
+        <button onclick="logoutUser()">Выйти</button>
+    </div>
+</div>
+<body>
+    <!-- Анимация загрузки -->
+    <div id="loader" class="loader-container">
+        <div class="loader"></div>
+        <p>Загрузка...</p>
+    </div>
+
+    <!-- Навигация -->
+    <ul class="nav-list">
+        <li><a class="nav-item" id="login-btn">Войти</a></li>
+        <li><a class="nav-item" id="profile-btn" style="display:none;">Профиль</a></li>
+    </ul>
+
+
+
+    <!-- Модальное окно авторизации -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Авторизация</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Войти</button>
+            </form>
+        </div>
+    </div>
+
+
+<script src="../static/js/chatbot.js" defer></script>
+<link rel="stylesheet" href="path/to/your/styles.css">
+
+
+
+
+<!-- Сайдбар -->
+<div id="sidebar" class="sidebar">
+    <ul class="sidebar-list">
+        <li><a href="#home">Главная</a></li>
+        <li><a href="#courses">Курсы</a></li>
+        <li><a href="#schedule">Расписание</a></li>
+        <li><a href="#diary">Дневник</a></li>
+        <li><a href="#statistics">Статистика</a></li>
+        <li><a href="#chat">Чат-бот</a></li>
+        <li><a href="#profile">Личный кабинет</a></li>
+          <!-- Навигация -->
+          <ul class="nav-list">
+        <!-- Кнопка входа в шапке сайта -->
+<div class="auth-buttons">
+    <button id="auth-button" class="auth-button">Войти</button>
+    <button id="logout-button" class="auth-button" style="display: none;">Выйти</button> <!-- Кнопка выхода, скрыта по умолчанию -->
+</div>
+
+        <!-- Кнопка для открытия/закрытия меню -->
+<button id="toggle-sidebar" class="toggle-sidebar-btn">☰</button>
+<button id="minimize-chatbot" onclick="minimizeChatbot()">_</button>
+
+    </ul>
+    </ul>
+</div>
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПоступAI</title>
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="../static/js/chatbot.js" defer></script>
+    <style>
+        /* По умолчанию скрываем раздел профиля */
+        #profile-info {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта с логотипом -->
+    <header class="header">
+        <div class="logo">
+            <img src="../static/images/logo.png" alt="ПоступAI Logo">
+            <h1>ПоступAI</h1>
+        </div>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li><a href="#home" class="nav-item">Главная</a></li>
+                <li><a href="courses.html" class="nav-item">Курсы</a></li> <!-- Ссылка на курсы -->
+                <li><a href="schedule.html" class="nav-item">Расписание</a></li> <!-- Ссылка на расписание -->
+                <li><a href="diary.html" class="nav-item">Дневник</a></li> <!-- Ссылка на дневник -->
+                <li><a href="#statistics" class="nav-item">Статистика</a></li>
+                <li><a href="#chat" class="nav-item">Чат-бот</a></li>
+                <li><a href="profile.html" class="nav-item">Личный кабинет</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+
+    <!-- Модальное окно авторизации -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAuthModal()">&times;</span>
+            <div id="auth-tabs">
+                <button class="auth-tab active" onclick="openAuthTab('login')">Вход</button>
+                <button class="auth-tab" onclick="openAuthTab('register')">Регистрация</button>
+            </div>
+            
+            <!-- Форма входа -->
+            <div id="login-form" class="auth-form">
+                <h3>Вход в аккаунт</h3>
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Пароль" required>
+                <button onclick="loginUser()">Войти</button>
+            </div>
+            
+            <!-- Форма регистрации -->
+            <div id="register-form" class="auth-form" style="display:none;">
+                <h3>Регистрация</h3>
+                <input type="text" id="reg-name" placeholder="Имя" required>
+                <input type="email" id="reg-email" placeholder="Email" required>
+                <input type="password" id="reg-password" placeholder="Пароль" required>
+                <input type="password" id="reg-confirm-password" placeholder="Подтвердите пароль" required>
+                <div id="password-requirements">
+                    <p>Пароль должен содержать:</p>
+                    <ul>
+                        <li id="req-length">Не менее 8 символов</li>
+                        <li id="req-upper">Хотя бы одну заглавную букву</li>
+                        <li id="req-number">Хотя бы одну цифру</li>
+                        <li id="req-special">Хотя бы один спецсимвол</li>
+                    </ul>
+                </div>
+                <button onclick="registerUser()">Зарегистрироваться</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основная информация -->
+    <section id="profile-info" class="profile-tab">
+        <h3>Основная информация</h3>
+        <div class="profile-card">
+            <img src="../static/images/profile-pic.jpg" alt="Фото профиля" class="profile-pic">
+            <h4>Иван Иванов</h4>
+            <p>Возраст: 17 лет</p>
+            <p>Курс: Математика</p>
+            <p>Прогресс: 75%</p>
+        </div>
+    </section>
+
+
+    <!-- Скрипты -->
+    <script>
+        // Функция для отображения "Личного кабинета"
+        function showProfile() {
+            // Скрыть все секции
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Показать раздел профиля
+            const profileSection = document.getElementById('profile-info');
+            profileSection.style.display = 'block';
+        }
+
+        // Скрытие модального окна
+        function closeAuthModal() {
+            document.getElementById('auth-modal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Восстанавливаем прокрутку страницы
+        }
+    </script>
+</body>
+</html>
+
+
+<!-- Настройки -->
+<div id="settings" class="profile-tab" style="display:none;">
+    <h3>Настройки</h3>
+    <form id="settings-form">
+        <label for="age">Возраст:</label>
+        <input type="number" id="age" value="17"><br>
+
+        <label for="gender">Пол:</label>
+        <select id="gender">
+            <option value="male">Мужской</option>
+            <option value="female">Женский</option>
+        </select><br>
+
+        <label for="phone">Номер телефона:</label>
+        <input type="tel" id="phone" value="123-456-789"><br>
+
+        <label for="email">Почта:</label>
+        <input type="email" id="email" value="ivan@mail.com"><br>
+
+        <button type="button" onclick="saveSettings()">Сохранить изменения</button>
+    </form>
+</div>
+
+<!-- Достижения -->
+<div id="achievements" class="profile-tab" style="display:none;">
+    <h3>Достижения</h3>
+    <div class="achievement-item">
+        <h4>Пройдено курсов:</h4>
+        <p>3 из 5</p>
+    </div>
+    <div class="achievement-item">
+        <h4>Лучший ученик месяца:</h4>
+        <p>Да</p>
+    </div>
+</div>
+
+<!-- Дневник -->
+<div id="diary" class="profile-tab" style="display:none;">
+    <h3>Дневник</h3>
+    <textarea id="diary-entry" placeholder="Запишите свой успех или мысль здесь..."></textarea><br>
+    <button onclick="saveDiary()">Сохранить запись</button>
+
+    <div id="diary-entries">
+        <h4>Последние записи:</h4>
+        <ul id="diary-list">
+            <!-- Рандомные уроки и домашки -->
+        </ul>
+    </div>
+</div>
+</section>
+
+
+<!-- Главная страница -->
+<section id="home" class="home-section">
+    <div class="welcome-content"></div>
+    <!-- Фоновое изображение с приветствием и цитатами -->
+    <div class="hero-banner">
+        <!-- Фоновое изображение (нижний слой) -->
+        <img src="../static/images/background.webp" alt="Фоновое изображение" class="hero-image">
+        <div class="hero-overlay"></div>
+        
+    
+        
+        <!-- Основной контент - приветствие и кнопка -->
+        <div class="welcome-content">
+            <h2 data-aos="fade-down">Добро пожаловать в ПоступAI!</h2>
+            <p data-aos="fade-down" data-aos-delay="100">Место для тех, кто готов покорять мир знаний. Подготовься к экзаменам с нашими курсами.</p>
+            <button data-aos="fade-down" data-aos-delay="200" onclick="window.location.href='#courses'">Перейти к курсам</button>
+        </div>
+        
+        <!-- Мотивационные цитаты -->
+        <div class="quotes-container">
+            <div class="quote-box" data-aos="fade-up" data-aos-delay="300">
+                <p class="quote-text">"Будь лучшим, не останавливайся на достигнутом!"</p>
+                <p class="quote-author">- Альберт Эйнштейн</p>
+            </div>
+            <div class="quote-box" data-aos="fade-up" data-aos-delay="400">
+                <p class="quote-text">"Путь к успеху всегда в процессе обучения."</p>
+                <p class="quote-author">- Стив Джобс</p>
+            </div>
+            <div class="quote-box" data-aos="fade-up" data-aos-delay="500">
+                <p class="quote-text">"Трудности — это лишь ступени на пути к успеху."</p>
+                <p class="quote-author">- Конфуций</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Личный кабинет -->
+    <section id="profile" style="display:none;">
+        <h2>Личный кабинет</h2>
+        <div class="profile-nav">
+            <button onclick="showTab('profile-info')">Профиль</button>
+            <button onclick="showTab('settings')">Настройки</button>
+            <button onclick="showTab('achievements')">Достижения</button>
+            <button onclick="showTab('diary')">Дневник</button>
+        </div>
+
+        <div id="profile-info" class="profile-tab">
+            <h3>Основная информация</h3>
+            <p><strong>Имя:</strong> Иван Иванов</p>
+            <p><strong>Возраст:</strong> 17</p>
+            <p><strong>Курс:</strong> Математика</p>
+            <p><strong>Прогресс:</strong> 75%</p>
+        </div>
+
+        <div id="settings" class="profile-tab" style="display:none;">
+            <h3>Настройки</h3>
+            <div id="settings-form">
+                <label for="age">Возраст: </label>
+                <input type="number" id="age" placeholder="Введите ваш возраст"><br>
+                <label for="gender">Пол: </label>
+                <select id="gender">
+                    <option value="мужской">Мужской</option>
+                    <option value="женский">Женский</option>
+                </select><br>
+                <label for="phone">Номер телефона: </label>
+                <input type="tel" id="phone" placeholder="Введите номер телефона"><br>
+                <label for="email">Почта: </label>
+                <input type="email" id="email" placeholder="Введите ваш email"><br>
+                <label for="hobbies">Хобби: </label>
+                <input type="text" id="hobbies" placeholder="Введите ваши хобби"><br>
+                <label for="favoriteSubject">Любимый предмет: </label>
+                <input type="text" id="favoriteSubject" placeholder="Введите ваш любимый предмет"><br>
+                <label for="exams">ЕГЭ: </label>
+                <input type="text" id="exams" placeholder="Какие ЕГЭ сдаете"><br>
+                <button onclick="saveSettings()">Сохранить изменения</button>
+            </div>
+        </div>
+
+        <div id="achievements" class="profile-tab" style="display:none;">
+            <h3>Достижения</h3>
+            <div class="achievement-item">
+                <h4>Успехи в курсах</h4>
+                <ul>
+                    <li>Математика - 75%</li>
+                    <li>Физика - 60%</li>
+                    <li>Химия - 80%</li>
+                </ul>
+            </div>
+            <div class="achievement-item">
+                <h4>Рейтинг</h4>
+                <p>Ваш текущий рейтинг: 350 из 1000</p>
+            </div>
+        </div>
+
+        <div id="diary" class="profile-tab" style="display:none;">
+            <h3>Дневник</h3>
+            <textarea id="diary-entry" placeholder="Запишите свой успех или мысль здесь..."></textarea><br>
+            <button onclick="saveDiary()">Сохранить запись</button>
+            <div id="diary-entries">
+                <h4>Последние записи:</h4>
+                <ul id="diary-list">
+                    <!-- Рандомные уроки и домашки -->
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 ПоступAI. Все права защищены.</p>
+    </footer>
+
+<!-- Кнопка для открытия чат-бота -->
+<button id="chatbot-button" onclick="toggleChatbot()">💬</button>
+
+<!-- Чат-бот -->
+<div id="chatbot-container">
+    <div id="chatbot-header">
+        <img src="../static/images/cat-avatar.png" alt="Кот Ученый" id="chatbot-avatar">
+        <span id="chatbot-title">Кот Ученый</span>
+        <button id="close-chatbot" onclick="closeChatbot()">×</button>
+        <button id="minimize-chatbot" onclick="toggleChatbot()">-</button>
+    </div>
+    <div id="chatbox"></div>
+    <input type="text" id="userInput" placeholder="Введите сообщение">
+    <button id="sendButton">Отправить</button> <!-- Привязка к sendMessage -->
+
+    <!-- Кнопки для быстрого ответа -->
+    <div id="quick-answers">
+        <button onclick="sendMessage('Что ты умеешь?')">Что ты умеешь?</button>
+        <button onclick="sendMessage('Какие курсы есть?')">Какие курсы есть?</button>
+        <button onclick="sendMessage('Как записаться?')">Как записаться?</button>
+    </div>
+</div>
+
+</body>
+</html>
+<!-- Раздел "О нас" -->
+<section id="about-us" class="about-us-section">
+    <h2>О нас</h2>
+    <p>Платформа <strong>ПоступAI</strong> была создана для того, чтобы помочь старшеклассникам подготовиться к экзаменам и развить их знания в ключевых областях. Мы верим, что каждый ученик заслуживает индивидуального подхода, и именно поэтому мы предлагаем курсы, которые соответствуют их интересам и нуждам.</p>
+    <p>Наши курсы по математике, физике, химии и информатике не только помогут вам углубить знания, но и подготовят к успешной сдаче ЕГЭ и олимпиадам. Мы стремимся быть вашими партнерами на пути к знаниям и успеху.</p>
+    <p>С помощью <strong>ПоступAI</strong> вы получите доступ к современным образовательным технологиям, интерактивным материалам и поддержке 24/7. Наша цель — сделать процесс обучения интересным, доступным и эффективным для каждого.</p>
+    <p>Присоединяйтесь к нам и начните свой путь к успеху уже сегодня!</p>
+</section>
+
+<!-- Раздел QA (Вопросы и Ответы) -->
+<section id="qa" class="qa-section">
+    <h2>Вопросы и Ответы</h2>
+    <div class="qa-item">
+        <h3>Как зарегистрироваться на платформе?</h3>
+        <p>Чтобы зарегистрироваться, перейдите в раздел "Личный кабинет", введите свои данные и нажмите кнопку "Зарегистрироваться".</p>
+    </div>
+    <div class="qa-item">
+        <h3>Какие курсы доступны?</h3>
+        <p>Мы предлагаем курсы по математике, физике, химии, а также по информатике. Вы можете выбрать курс в разделе "Курсы".</p>
+    </div>
+    <div class="qa-item">
+        <h3>Как задать вопрос чат-боту?</h3>
+        <p>Чат-бот доступен в правом нижнем углу. Просто напишите свой вопрос, и чат-бот постарается ответить на него.</p>
+    </div>
+    <div class="qa-item">
+        <h3>Как получить поддержку?</h3>
+        <p>Если у вас возникли вопросы, которые не решаются с помощью чат-бота, вы можете обратиться в службу поддержки через раздел "Контакты".</p>
+    </div>
+</section>
+<section id="profile" class="profile-section">
+    <div class="profile-nav">
+        <button onclick="showTab('profile-info')">Профиль</button>
+        <button onclick="showTab('settings')">Настройки</button>
+        <button onclick="showTab('achievements')">Достижения</button>
+        <button onclick="showTab('diary')">Дневник</button>
+    </div>
+<!-- Расписание -->
+<section id="schedule" class="schedule-section">
+    <h2>Ваше Расписание</h2>
+
+    <div class="schedule-container">
+        <div class="schedule-header">
+            <button onclick="toggleAddScheduleForm()">Добавить занятие</button>
+        </div>
+
+        <div id="schedule-list" class="schedule-list">
+            <!-- Сюда будут динамически добавляться занятия -->
+        </div>
+    </div>
+
+    <!-- Форма для добавления нового занятия -->
+    <div id="add-schedule-form" class="add-schedule-form" style="display: none;">
+        <h3>Добавить занятие</h3>
+        <form onsubmit="addScheduleEvent(event)">
+            <label for="subject">Предмет:</label>
+            <input type="text" id="subject" required><br>
+            
+            <label for="day">День недели:</label>
+            <select id="day" required>
+                <option value="Понедельник">Понедельник</option>
+                <option value="Вторник">Вторник</option>
+                <option value="Среда">Среда</option>
+                <option value="Четверг">Четверг</option>
+                <option value="Пятница">Пятница</option>
+                <option value="Суббота">Суббота</option>
+                <option value="Воскресенье">Воскресенье</option>
+            </select><br>
+            
+            <label for="time">Время:</label>
+            <input type="time" id="time" required><br>
+            
+            <button type="submit">Добавить занятие</button>
+            <button type="button" onclick="toggleAddScheduleForm()">Отменить</button>
+        </form>
+    </div>
+</section>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПоступAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script> <!-- Библиотека для анимации -->
+    <script src="../static/js/chatbot.js" defer></script>
+</head>
+<body>
+    <!-- Главная страница -->
+    <section id="home" class="section-content">
+        <h2>Добро пожаловать в ПоступAI!</h2>
+        <p>Место для тех, кто готов покорять мир знаний. Подготовься к экзаменам с нашими курсами по математике, физике и многому другому.</p>
+    </section>
+
+    <!-- Курсы -->
+    <section id="courses" class="section-content" style="display: none;">
+        <h2>Курсы</h2>
+        <p>Здесь будут размещены все курсы для подготовки к экзаменам.</p>
+    </section>
+
+    <!-- Расписание -->
+    <section id="schedule" class="section-content" style="display: none;">
+        <h2>Ваше Расписание</h2>
+        <div class="schedule-container">
+            <div class="schedule-header">
+                <button onclick="toggleAddScheduleForm()">Добавить занятие</button>
+            </div>
+
+            <div id="schedule-list" class="schedule-list">
+                <!-- Сюда будут динамически добавляться занятия -->
+            </div>
+        </div>
+
+        <!-- Форма для добавления нового занятия -->
+        <div id="add-schedule-form" class="add-schedule-form" style="display: none;">
+            <h3>Добавить занятие</h3>
+            <form onsubmit="addScheduleEvent(event)">
+                <label for="subject">Предмет:</label>
+                <input type="text" id="subject" required><br>
+                
+                <label for="day">День недели:</label>
+                <select id="day" required>
+                    <option value="Понедельник">Понедельник</option>
+                    <option value="Вторник">Вторник</option>
+                    <option value="Среда">Среда</option>
+                    <option value="Четверг">Четверг</option>
+                    <option value="Пятница">Пятница</option>
+                    <option value="Суббота">Суббота</option>
+                    <option value="Воскресенье">Воскресенье</option>
+                </select><br>
+                
+                <label for="time">Время:</label>
+                <input type="time" id="time" required><br>
+                
+                <button type="submit">Добавить занятие</button>
+                <button type="button" onclick="toggleAddScheduleForm()">Отменить</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Дневник -->
+    <section id="diary" class="section-content" style="display: none;">
+        <h2>Дневник</h2>
+        <textarea placeholder="Запишите что-то полезное сюда..."></textarea><br>
+        <button>Сохранить запись</button>
+    </section>
+
+    <!-- Статистика -->
+    <section id="statistics" class="section-content" style="display: none;">
+        <h2>Статистика</h2>
+        <p>Здесь будет отображаться статистика по прогрессу.</p>
+    </section>
+
+    <!-- Чат-бот -->
+    <section id="chat" class="section-content" style="display: none;">
+        <h2>Чат-бот</h2>
+        <div id="chatbox"></div>
+        <input type="text" id="userInput" placeholder="Введите сообщение">
+        <button>Отправить</button>
+    </section>
+
+    <!-- Личный кабинет -->
+    <section id="profile" class="section-content" style="display: none;">
+        <h2>Личный Кабинет</h2>
+        <p>Здесь вы можете просматривать и редактировать информацию о себе.</p>
+    </section>
+
+    <footer>
+        <p>© 2025 ПоступAI. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Функция для переключения между секциями
+        function showSection(sectionId) {
+            // Скрыть все секции
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Показать выбранную секцию
+            const activeSection = document.getElementById(sectionId);
+            activeSection.style.display = 'block';
+        }
+
+        // Инициализация отображения главной страницы по умолчанию
+        showSection('home');
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПоступAI</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="chatbot.js" defer></script>
+</head>
+<body>
+
+    <!-- Чат-бот -->
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            <img src="cat-avatar.png" alt="Кот Ученый" id="chatbot-avatar">
+            <span id="chatbot-title">Кот Ученый</span>
+            <button id="close-chatbot" onclick="closeChatbot()">×</button>
+            <button id="minimize-chatbot" onclick="toggleChatbot()">_</button>
+        </div>
+        <div id="chatbox"></div>
+        <input type="text" id="userInput" placeholder="Введите сообщение">
+        <button id="sendButton">Отправить</button>
+
+        <!-- Кнопки для быстрого ответа -->
+        <div id="quick-answers">
+            <button onclick="sendMessage('Что ты умеешь?')">Что ты умеешь?</button>
+            <button onclick="sendMessage('Какие курсы есть?')">Какие курсы есть?</button>
+            <button onclick="sendMessage('Как записаться?')">Как записаться?</button>
+        </div>
+    </div>
+
+</body>
+</html>

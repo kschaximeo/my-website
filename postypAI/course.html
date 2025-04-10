@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои курсы | ПоступAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9ff;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Шапка раздела */
+        .courses-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e9ff;
+        }
+        
+        .courses-title {
+            font-size: 28px;
+            color: #1a3e8c;
+            display: flex;
+            align-items: center;
+        }
+        
+        .courses-title i {
+            margin-right: 15px;
+            color: #1a3e8c;
+        }
+        
+        .courses-filter {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .filter-btn {
+            background-color: white;
+            border: 1px solid #d0d9f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #1a3e8c;
+            color: white;
+            border-color: #1a3e8c;
+        }
+        
+        /* Сетка курсов */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Карточка курса */
+        .course-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .course-category {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .course-content {
+            padding: 20px;
+        }
+        
+        .course-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #1a3e8c;
+        }
+        
+        .course-teacher {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .teacher-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        
+        .course-description {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .progress-container {
+            margin-bottom: 20px;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: #e0e9ff;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1a3e8c, #4d7eff);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f5ff;
+        }
+        
+        .course-duration, .course-lessons {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .course-duration i, .course-lessons i {
+            margin-right: 5px;
+            color: #1a3e8c;
+        }
+        
+        .course-btn {
+            background: linear-gradient(135deg, #1a3e8c, #4d7eff);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .course-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Статистика курсов */
+        .courses-stats {
+            margin-top: 40px;
+            background-color: #f8faff;
+            border-radius: 10px;
+            padding: 25px;
+        }
+        
+        .stats-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #1a3e8c;
+            display: flex;
+            align-items: center;
+        }
+        
+        .stats-title i {
+            margin-right: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a3e8c;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            .courses-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .courses-filter {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="courses-header">
+            <h1 class="courses-title">
+                <i class="fas fa-graduation-cap"></i> Мои курсы
+            </h1>
+            <div class="courses-filter">
+                <button class="filter-btn active">Все</button>
+                <button class="filter-btn">В процессе</button>
+                <button class="filter-btn">Завершенные</button>
+                <button class="filter-btn">Новые</button>
+            </div>
+        </div>
+        
+        <!-- Сетка курсов -->
+        <div class="courses-grid">
+            <!-- Курс 1 -->
+            <div class="course-card">
+                <div class="course-image" style="background-image: url('https://source.unsplash.com/random/600x400/?math');">
+                    <span class="course-category">Математика</span>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Алгебра и начала анализа</h3>
+                    <div class="course-teacher">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Преподаватель" class="teacher-avatar">
+                        <span>Иван Петров</span>
+                    </div>
+                    <p class="course-description">
+                        Полный курс алгебры для 10-11 классов. Подготовка к ЕГЭ и олимпиадам.
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-info">
+                            <span>Прогресс</span>
+                            <span>65%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%"></div>
+                        </div>
+                    </div>
+                    <div class="course-meta">
+                        <div class="course-duration">
+                            <i class="far fa-clock"></i> 24 часа
+                        </div>
+                        <div class="course-lessons">
+                            <i class="fas fa-book-open"></i> 15 уроков
+                        </div>
+                        <button class="course-btn">Продолжить</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Курс 2 -->
+            <div class="course-card">
+                <div class="course-image" style="background-image: url('https://source.unsplash.com/random/600x400/?physics');">
+                    <span class="course-category">Физика</span>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Физика: механика</h3>
+                    <div class="course-teacher">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Преподаватель" class="teacher-avatar">
+                        <span>Елена Смирнова</span>
+                    </div>
+                    <p class="course-description">
+                        Основы механики: кинематика, динамика, законы сохранения.
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-info">
+                            <span>Прогресс</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="course-meta">
+                        <div class="course-duration">
+                            <i class="far fa-clock"></i> 18 часов
+                        </div>
+                        <div class="course-lessons">
+                            <i class="fas fa-book-open"></i> 12 уроков
+                        </div>
+                        <button class="course-btn">Завершить</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Курс 3 -->
+            <div class="course-card">
+                <div class="course-image" style="background-image: url('https://source.unsplash.com/random/600x400/?chemistry');">
+                    <span class="course-category">Химия</span>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Органическая химия</h3>
+                    <div class="course-teacher">
+                        <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Преподаватель" class="teacher-avatar">
+                        <span>Алексей Волков</span>
+                    </div>
+                    <p class="course-description">
+                        Углубленный курс органической химии с практическими заданиями.
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-info">
+                            <span>Прогресс</span>
+                            <span>30%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%"></div>
+                        </div>
+                    </div>
+                    <div class="course-meta">
+                        <div class="course-duration">
+                            <i class="far fa-clock"></i> 30 часов
+                        </div>
+                        <div class="course-lessons">
+                            <i class="fas fa-book-open"></i> 20 уроков
+                        </div>
+                        <button class="course-btn">Продолжить</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Курс 4 -->
+            <div class="course-card">
+                <div class="course-image" style="background-image: url('https://source.unsplash.com/random/600x400/?programming');">
+                    <span class="course-category">Информатика</span>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Программирование на Python</h3>
+                    <div class="course-teacher">
+                        <img src="https://randomuser.me/api/portraits/men/76.jpg" alt="Преподаватель" class="teacher-avatar">
+                        <span>Дмитрий Иванов</span>
+                    </div>
+                    <p class="course-description">
+                        Основы программирования для начинающих. Синтаксис Python и алгоритмы.
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-info">
+                            <span>Прогресс</span>
+                            <span>0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="course-meta">
+                        <div class="course-duration">
+                            <i class="far fa-clock"></i> 36 часов
+                        </div>
+                        <div class="course-lessons">
+                            <i class="fas fa-book-open"></i> 24 урока
+                        </div>
+                        <button class="course-btn">Начать</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Статистика курсов -->
+        <div class="courses-stats">
+            <h3 class="stats-title">
+                <i class="fas fa-chart-pie"></i> Моя статистика
+            </h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">Всего курсов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Курсов в процессе</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Завершенных курсов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">46%</div>
+                    <div class="stat-label">Общий прогресс</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Фильтрация курсов
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.textContent;
+                    console.log('Фильтр: ' + filter);
+                    
+                    // Здесь будет логика фильтрации курсов
+                    // В реальном приложении это может быть запрос к серверу
+                    // или фильтрация на клиенте
+                });
+            });
+            
+            // Обработка кнопок курсов
+            const courseBtns = document.querySelectorAll('.course-btn');
+            courseBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.course-card');
+                    const courseTitle = card.querySelector('.course-title').textContent;
+                    
+                    if (this.textContent === 'Начать') {
+                        this.textContent = 'Продолжить';
+                        card.querySelector('.progress-fill').style.width = '5%';
+                        card.querySelector('.progress-info span:last-child').textContent = '5%';
+                        alert(`Вы начали курс "${courseTitle}"`);
+                    } else if (this.textContent === 'Завершить') {
+                        card.querySelector('.progress-fill').style.width = '100%';
+                        card.querySelector('.progress-info span:last-child').textContent = '100%';
+                        this.textContent = 'Просмотреть';
+                        alert(`Поздравляем! Вы завершили курс "${courseTitle}"`);
+                    } else {
+                        alert(`Переход к курсу "${courseTitle}"`);
+                        // В реальном приложении здесь будет переход на страницу курса
+                    }
+                });
+            });
+            
+            // Имитация загрузки данных
+            function loadCoursesData() {
+                // В реальном приложении здесь будет запрос к серверу
+                console.log('Загрузка данных курсов...');
+            }
+            
+            loadCoursesData();
+        });
+    </script>
+</body>
+</html>
